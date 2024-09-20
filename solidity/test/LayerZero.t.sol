@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.5;
+
+import "forge-std/Test.sol";
+import "../src/LayerZero.sol";
+
+contract LayerZeroTest is Test {
+    uint32 dsteid_base_sepolia = 40245;
+
+    function testLayerZeroExisting() public {
+        LayerZero lz = LayerZero(0xCF06f7BC9D3Cd7b068F059AB4c19f237F3A40F8C); // sepolia
+        uint256 nativeFee = lz.quote(dsteid_base_sepolia, 0.01 ether, address(0x1337));
+        lz.send{value: nativeFee}(dsteid_base_sepolia, 0.01 ether, address(0x1337));
+    }
+
+    function testLayerZeroNew() public {
+        LayerZero lz = new LayerZero(
+            0x6EDCE65403992e310A62460808c4b910D972f10f,
+            address(this)
+        ); // sepolia
+        lz.setPeer(dsteid_base_sepolia, bytes32(abi.encode(0x28a2e0927E6dfC55BBB9949A275deFB5Cf0A0B06)));
+        uint256 nativeFee = lz.quote(dsteid_base_sepolia, 0.01 ether, address(0x1337));
+        lz.send{value: nativeFee}(dsteid_base_sepolia, 0.01 ether, address(0x1337));
+    }
+}
