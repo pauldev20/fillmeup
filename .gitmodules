@@ -16,3 +16,6 @@
 [submodule "hyperlane/lib/hyperlane-monorepo"]
 	path = hyperlane/lib/hyperlane-monorepo
 	url = https://github.com/hyperlane-xyz/hyperlane-monorepo
+[submodule "hyperlane/lib/openzeppelin-contracts"]
+	path = hyperlane/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
