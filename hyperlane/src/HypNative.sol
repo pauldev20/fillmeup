@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity >=0.8.0;
 
-import {TokenRouter} from "hyperlane/TokenRouter.sol";
-import {TokenMessage} from "hyperlane/TokenMessage.sol";
+import {TokenRouter} from "hyperlane/token/libs/TokenRouter.sol";
+import {TokenMessage} from "hyperlane/token/libs/TokenMessage.sol";
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 
 /**
