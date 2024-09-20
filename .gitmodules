@@ -10,3 +10,6 @@
 [submodule "solidity/lib/solidity-bytes-utils"]
 	path = solidity/lib/solidity-bytes-utils
 	url = https://github.com/GNSPS/solidity-bytes-utils
+[submodule "hyperlane/lib/forge-std"]
+	path = hyperlane/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
