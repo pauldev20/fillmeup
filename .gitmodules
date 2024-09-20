@@ -13,3 +13,6 @@
 [submodule "solidity/lib/openzeppelin-foundry-upgrades"]
 	path = solidity/lib/openzeppelin-foundry-upgrades
 	url = https://github.com/OpenZeppelin/openzeppelin-foundry-upgrades
+[submodule "hyperlane/lib/forge-std"]
+	path = hyperlane/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
