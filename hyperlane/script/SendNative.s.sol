@@ -17,7 +17,7 @@ contract SendNative is Script {
     function run() public {
 		uint256[] memory fork_ids = new uint256[](2);
         fork_ids[0] = vm.createFork(vm.rpcUrl("source_chain"));
-		fork_ids[1] = vm.createFork(vm.rpcUrl("destination_chain"));
+		// fork_ids[1] = vm.createFork(vm.rpcUrl("destination_chain"));
 
         HypNative[] memory routers = new HypNative[](2);
 		routers[0] = HypNative(payable(vm.envAddress("ROUTER_0_ADDRESS")));
@@ -29,7 +29,7 @@ contract SendNative is Script {
 		console.log("Gas payment: ", gas);
 		routers[0].transferRemote{value:gas+100}(
 			uint32(vm.envUint("DESTINATION_CHAIN_ID")),
-			bytes32(uint256(uint160(vm.envAddress("ROUTER_1_ADDRESS")))),
+			bytes32(uint256(uint160(0x4639B9F663C14Bad89Ddcc16966e85Bc81dCCD40))),
 			100
 		);
 		vm.stopBroadcast();
