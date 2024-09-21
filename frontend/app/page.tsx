@@ -12,7 +12,7 @@ import ApprovalWidget from "@/components/approval";
 export default function Home() {
   const speechRef = useRef<SpeechBubbleHandle>(null);
   const [disabled, setDisabled] = useState(true);
-  const { isConnected } = useAppKitAccount();
+  const { isConnected, status } = useAppKitAccount();
   const { open } = useAppKit();
 
   useOnMountUnsafe(() => {
@@ -24,12 +24,13 @@ export default function Home() {
   useEffect(() => {
     setDisabled(!isConnected);
     if (!speechRef.current) return;
-    if (isConnected) {
+    if (status === "connected") {
       speechRef.current.addMessage("Looks like you're Wallet is connected!");
-    } else {
+    } 
+    if (status === "disconnected") {
       speechRef.current.addMessage("Please connect your wallet to get started!");
     }
-  }, [speechRef, isConnected]);
+  }, [speechRef, isConnected, status]);
 
   const handleMessageCallback = (hasWeth: boolean, hasApproval: boolean) => {
     if (!speechRef.current) return;
