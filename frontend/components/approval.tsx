@@ -93,7 +93,7 @@ export default function ApprovalWidget({ callback }: ApprovalWidgetProps) {
 			<Button disabled={disabled} onClick={(approved || 0) > 0 ? revokeWeth : approveWeth}>{(approved || 0) > 0 ? "Revoke WETH" : "Approve WETH"}</Button>
 			<div className="flex items-center justify-center gap-2">
 				{approved == null ? <Skeleton className="h-4 w-[50px]" /> : <span className="font-bold">{approved?.toPrecision(2)}</span>}
-				<p>WETH left for gas</p>
+				<p><span className="font-bold">WETH</span> left</p>
 			</div>
 		</div>
 	</>)

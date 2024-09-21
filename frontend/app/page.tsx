@@ -35,8 +35,8 @@ export default function Home() {
     if (!speechRef.current) return;
     if (status === "connected") {
       speechRef.current.addMessage("Looks like your wallet is connected!");
-    } 
-    if (status === "disconnected") {
+    }
+    if (status === "disconnected" || status === undefined) {
       speechRef.current.addMessage("Please connect your wallet to get started!");
     }
   }, [speechRef, isConnected, status]);
@@ -60,13 +60,13 @@ export default function Home() {
         <ConnectButton/>
       </header>
       <main className="flex items-center justify-center min-h-screen">
-        <div className="absolute top-0 mt-32 -rotate-6">
+        <div className="absolute top-0 mt-20 -rotate-6">
           <LetterPullup
             className={londrinaSolid.className}
             words={"Say goodbye to gas worries!"} delay={0.05}
           />
         </div>
-        <Card className="w-[650px] p-8 !overflow-visible bg-[#e3cd96] z-10 border-none shadow-lg">
+        <Card className="w-[700px] p-8 !overflow-visible bg-[#e3cd96] z-10 border-none shadow-lg">
           <CardContent>
           <div className="flex flex-col gap-5">
 
