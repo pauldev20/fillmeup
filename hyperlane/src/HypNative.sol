@@ -48,6 +48,14 @@ contract HypNative is TokenRouter {
         return _transferRemote(_destination, _recipient, _amount, _hookPayment);
     }
 
+    function handle(
+        uint32 _origin,
+        bytes32 _sender,
+        bytes calldata _metadata
+    ) external override onlyMailbox {
+        _handle(_origin, _sender, _metadata);
+    }
+
     // /**
     //  * @inheritdoc TokenRouter
     //  * @dev uses (`msg.value` - `_amount`) as hook payment.
