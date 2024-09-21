@@ -15,7 +15,7 @@ const ethers5Adapter = new EthersAdapter()
 const metadata = {
   name: 'Test',
   description: 'AppKit Example',
-  url: 'https://reown.com/appkit',
+  url: 'https://fillmeup-two.vercel.app',
   icons: ['https://assets.reown.com/reown-profile-pic.png']
 }
 
@@ -28,6 +28,7 @@ createAppKit({
   projectId,
   allowUnsupportedChain: true,
   features: {
+    onramp: false,
     analytics: false,
     swaps: true
   }

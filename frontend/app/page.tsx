@@ -3,23 +3,46 @@
 import SpeechBubble, {SpeechBubbleHandle} from "@/components/speechbubble";
 import { useOnMountUnsafe } from "@/lib/useOnMountUnsafe";
 import ConnectButton from "@/components/w3button";
-import { useAppKit } from "@reown/appkit/react";
+import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import { Button } from "@/components/ui/button";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import ApprovalWidget from "@/components/approval";
-// import Image from "next/image";
 
 export default function Home() {
   const speechRef = useRef<SpeechBubbleHandle>(null);
+  const [disabled, setDisabled] = useState(true);
+  const { isConnected } = useAppKitAccount();
   const { open } = useAppKit();
 
   useOnMountUnsafe(() => {
-    console.log("Hello, I'm Gassy!");
     if (!speechRef.current) return;
     speechRef.current.addMessage("Hello, I'm Gassy!");
     speechRef.current.addMessage("I'm here to help you with your gas fees!");
   });
+
+  useEffect(() => {
+    setDisabled(!isConnected);
+    if (!speechRef.current) return;
+    if (isConnected) {
+      speechRef.current.addMessage("Looks like you're Wallet is connected!");
+    } else {
+      speechRef.current.addMessage("Please connect your wallet to get started!");
+    }
+  }, [speechRef, isConnected]);
+
+  const handleMessageCallback = (hasWeth: boolean, hasApproval: boolean) => {
+    if (!speechRef.current) return;
+    if (hasWeth && !hasApproval) {
+      speechRef.current.addMessage("You have WETH! Please approve it!");
+    }
+    if (hasWeth && hasApproval) {
+      speechRef.current.addMessage("You have WETH and approved it! Lay back and enjoy the gas!");
+    }
+    if (!hasWeth) {
+      speechRef.current.addMessage("You don't have WETH! To continue, please swap some!");
+    }
+  }
 
   return (
     <div className="min-h-screen">
@@ -38,7 +61,7 @@ export default function Home() {
                 </h1>
                 <div className="flex justify-center items-center">
                     {/* @ts-expect-error type missing but working */}
-                    <Button onClick={() => open({view: "Swap"})}>Swap WETH</Button>
+                    <Button onClick={() => open({view: "Swap"})} disabled={disabled}>Swap WETH</Button>
                 </div>
               </div>
               <hr className="border-t-2 border-gray-300 mx-12"/>
@@ -46,7 +69,7 @@ export default function Home() {
                 <h1 className="flex items-center">
                   <span className="text-4xl mr-2">②</span>Approve WETH for your gas on all Chains
                 </h1>
-                <ApprovalWidget/>
+                <ApprovalWidget callback={handleMessageCallback}/>
               </div>
               <hr className="border-t-2 border-gray-300 mx-12"/>
               <div className="flex flex-col gap-3">

@@ -10,16 +10,21 @@ const WETHAddress = '0x4200000000000000000000000000000000000006';
 
 const WETHAbi = [{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"src","type":"address"},{"indexed":true,"internalType":"address","name":"guy","type":"address"},{"indexed":false,"internalType":"uint256","name":"wad","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"dst","type":"address"},{"indexed":false,"internalType":"uint256","name":"wad","type":"uint256"}],"name":"Deposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"src","type":"address"},{"indexed":true,"internalType":"address","name":"dst","type":"address"},{"indexed":false,"internalType":"uint256","name":"wad","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"src","type":"address"},{"indexed":false,"internalType":"uint256","name":"wad","type":"uint256"}],"name":"Withdrawal","type":"event"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"guy","type":"address"},{"internalType":"uint256","name":"wad","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"deposit","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"dst","type":"address"},{"internalType":"uint256","name":"wad","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"src","type":"address"},{"internalType":"address","name":"dst","type":"address"},{"internalType":"uint256","name":"wad","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"wad","type":"uint256"}],"name":"withdraw","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
 
-export default function ApprovalWidget() {
+interface ApprovalWidgetProps {
+	callback?: (hasWeth: boolean, hasApproval: boolean) => void;
+}
+
+export default function ApprovalWidget({ callback }: ApprovalWidgetProps) {
 	const { address, isConnected } = useAppKitAccount();
 	const { walletProvider } = useAppKitProvider('eip155');
 	const [approved, setApproved] = useState<number | null>(null);
 	const [balance, setBalance] = useState<number | null>(null);
+	const [disabled, setDisabled] = useState(true);
 	const [amount, setAmount] = useState(0.0);
 
 
 	const getAllowance = useCallback(async () => {
-		if (!isConnected) throw Error('User disconnected');
+		if (!isConnected) return;
 		setApproved(null);
 		const ethersProvider = new BrowserProvider(walletProvider as EIP1193Provider);
 		const signer = await ethersProvider.getSigner()
@@ -29,7 +34,7 @@ export default function ApprovalWidget() {
 		setApproved(Number(formatUnits(allowance, 18)));
 	}, [address, isConnected, walletProvider]);
 	const getBalance = useCallback(async () => {
-		if (!isConnected) throw Error('User disconnected');
+		if (!isConnected) return;
 		setBalance(null);
 		const ethersProvider = new BrowserProvider(walletProvider as EIP1193Provider);
 		const signer = await ethersProvider.getSigner()
@@ -40,7 +45,7 @@ export default function ApprovalWidget() {
 	}, [address, isConnected, walletProvider]);
 
 	const approveWeth = async () => {
-		if (!isConnected) throw Error('User disconnected')
+		if (!isConnected) return;
 		const ethersProvider = new BrowserProvider(walletProvider as EIP1193Provider);
 		const signer = await ethersProvider.getSigner()
 
@@ -51,7 +56,7 @@ export default function ApprovalWidget() {
 		getAllowance();
 	}
 	const revokeWeth = async () => {
-		if (!isConnected) throw Error('User disconnected')
+		if (!isConnected) return;
 		const ethersProvider = new BrowserProvider(walletProvider as EIP1193Provider);
 		const signer = await ethersProvider.getSigner()
 
@@ -61,9 +66,15 @@ export default function ApprovalWidget() {
 	}
 
 	useEffect(() => {
+		setDisabled(!isConnected);
 		getAllowance();
 		getBalance();
 	}, [isConnected, getAllowance, getBalance]);
+
+	useEffect(() => {
+		if (balance == null || approved == null) return;
+		if (callback) callback(balance > 0, approved > 0);
+	}, [balance, approved, callback]);
 
 	return (<>
 		<div className="flex gap-3 justify-center items-center">
@@ -75,7 +86,7 @@ export default function ApprovalWidget() {
 			</div>
 		</div>
 		<div className="flex justify-center items-center gap-4">
-			<Button onClick={(approved || 0) > 0 ? revokeWeth : approveWeth}>{(approved || 0) > 0 ? "Revoke WETH" : "Approve WETH"}</Button>
+			<Button disabled={disabled} onClick={(approved || 0) > 0 ? revokeWeth : approveWeth}>{(approved || 0) > 0 ? "Revoke WETH" : "Approve WETH"}</Button>
 			<div className="flex items-center justify-center gap-2">
 				{approved == null ? <Skeleton className="h-4 w-[50px]" /> : <span className="font-bold">{approved?.toPrecision(2)}</span>}
 				<p>WETH left for gas</p>
