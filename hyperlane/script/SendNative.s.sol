@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
-import {Counter} from "../src/HypNative.sol";
+import {HypNative} from "../src/HypNative.sol";
 
 contract SendNative is Script {
     HypNative public hypnative;
@@ -12,7 +12,9 @@ contract SendNative is Script {
     function run() public {
         vm.startBroadcast();
 
-        hypnative = new HypNative();
+        address mailbox = address(0x1234567890123456789012345678901234567890);
+
+        hypnative = new HypNative(mailbox);
 
         vm.stopBroadcast();
     }
