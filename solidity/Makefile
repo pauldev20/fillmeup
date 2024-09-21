@@ -8,6 +8,24 @@ export
 
 none:
 
+bridgeSelector-deploy-normal:
+	forge script script/BridgeSelector.s.sol:DeployNormal --broadcast --fork-url $(RPC) --private-key $(PRIVATE_KEY) -vvvv --ffi
+# bridgeSelector-deploy:
+# 	forge clean
+# 	forge build
+# 	forge script script/BridgeSelector.s.sol:DeployProxy --broadcast --fork-url $(RPC) --private-key $(PRIVATE_KEY) -vvvv --ffi
+bridgeSelector-verify:
+	forge verify-contract \
+	0x4CD5D8EC1e9C3909d14f378f3348F3AB0A04E172 \
+	src/BridgeSelectorV1.sol:BridgeSelectorV1 \
+	-e $(ETHERSCAN_API_KEY) \
+	--rpc-url https://sepolia.drpc.org \
+	--guess-constructor-args \
+	--chain sepolia \
+	--watch
+bridgeSelector-send:
+	forge script script/BridgeSelector.s.sol:TransferTest --broadcast --fork-url $(RPC) --private-key $(PRIVATE_KEY) -vvvv	
+
 layerZero-deploy:
 	forge script script/LayerZero.s.sol:Deploy --broadcast --private-key $(PRIVATE_KEY) -vvvv
 layerZero-setpeer:
@@ -30,6 +48,8 @@ test-lz-new:
 	forge test --match-test "testLayerZeroNew" --fork-url ${RPC} -vvvv
 test-selector:
 	forge test --match-test "testBridgeSelector" --fork-url ${RPC} -vvvv 
+test-selector-existing:
+	forge test --match-test "testBridgeSelectorExisting" --fork-url ${RPC} -vvvv 
 
 fork:
 	anvil -f wss://sepolia.drpc.org

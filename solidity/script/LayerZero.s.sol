@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import "../src/LayerZero.sol";
 import {Script, console} from "forge-std/Script.sol";
+import {Util} from "../src/Util.sol";
 
 contract Deploy is Script {
     function run() public {
@@ -41,7 +42,7 @@ contract SetPeer is Script {
             vm.startBroadcast();
             for (uint j = 0; j < peers.length; j++) {
                 if (i == j) continue;
-                lz.setPeer(peers[j].eid, bytes32(abi.encode(peers[j].peer)));
+                lz.setPeer(peers[j].eid, Util.addressToBytes32(peers[j].peer));
             }
             vm.stopBroadcast();
         }
