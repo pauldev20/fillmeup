@@ -15,7 +15,8 @@ interface WETH {
     ) external returns (bool);
 }
 
-contract BridgeSelectorV1 is Initializable {
+/// @custom:oz-upgrades-from src/BridgeSelectorV1.sol:BridgeSelectorV1
+contract BridgeSelectorV2 is Initializable {
     WETH public weth;
     LayerZero public lz;
 
