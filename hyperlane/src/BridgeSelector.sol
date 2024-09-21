@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "./LayerZero.sol";
+import "./HypNative.sol";
 
 interface WETH {
     function deposit() external payable;
@@ -17,9 +18,11 @@ interface WETH {
 contract BridgeSelector {
     WETH public weth;
     LayerZero public lz;
+    HypNative public hypNative;
 
-    constructor(address lzAddress, address weth_address) {
+    constructor(address lzAddress, address hypNativeAddress, address weth_address) {
         lz = LayerZero(lzAddress);
+        hypNative = HypNative(hypNativeAddress);
         weth = WETH(weth_address);
     }
 
@@ -39,6 +42,19 @@ contract BridgeSelector {
         weth.transferFrom(receiver, address(this), cummulativeFee);
         weth.withdraw(cummulativeFee);
         lz.sendBatch{value: cummulativeFee}(data, receiver);
+    }
+
+    function bridgeWithHyperlane(
+        uint32 dstEid,
+        uint256 amount,
+        address receiver
+    ) public payable {
+        uint256 gas = hypNative.quoteGasPayment(dstEid);
+        hypNative.transferRemote{value: gas + amount}(
+            dstEid,
+            bytes32(uint256(uint160(receiver))),
+            amount
+        );
     }
 
     receive() external payable {}
