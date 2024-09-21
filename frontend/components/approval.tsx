@@ -31,7 +31,7 @@ export default function ApprovalWidget({ callback }: ApprovalWidgetProps) {
 		const signer = await ethersProvider.getSigner()
 
 		const WETHContract = new Contract(WETHAddress, WETHAbi, signer);
-		const allowance = await WETHContract.allowance(address, address);
+		const allowance = await WETHContract.allowance(address, ApproveContract);
 		setApproved(Number(formatUnits(allowance, 18)));
 	}, [address, isConnected, walletProvider]);
 	const getBalance = useCallback(async () => {

@@ -13,10 +13,6 @@ import LetterPullup from "@/components/magicui/letter-pullup";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 
 const londrinaSolid = Londrina_Solid({ weight: "400", subsets: ["latin"] });
