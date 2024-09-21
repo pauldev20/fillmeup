@@ -85,7 +85,7 @@ export default function Home() {
                 <hr className="border-t-2 border-gray-800 mx-12"/>
                 <div className="flex flex-col gap-3">
                   <h1 className="flex items-center">
-                    <span className="text-4xl mr-2">②</span>Approve WETH for your gas on all Chains
+                    <span className="text-4xl mr-2">②</span>Approve WETH for your gas on all chains
                   </h1>
                   <ApprovalWidget callback={handleMessageCallback}/>
                 </div>
