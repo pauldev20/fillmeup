@@ -8,7 +8,19 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import ApprovalWidget from "@/components/approval";
-import { MagicCard } from "@/components/magicui/magic-card";
+import { Londrina_Solid } from 'next/font/google';
+import LetterPullup from "@/components/magicui/letter-pullup";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+const londrinaSolid = Londrina_Solid({ weight: "400", subsets: ["latin"] });
+
 
 export default function Home() {
   const speechRef = useRef<SpeechBubbleHandle>(null);
@@ -52,7 +64,14 @@ export default function Home() {
         <ConnectButton/>
       </header>
       <main className="flex items-center justify-center min-h-screen">
-        <MagicCard className="w-[650px] p-8 !overflow-visible">
+        <div className="absolute top-0 mt-32 -rotate-6">
+          <LetterPullup
+            className={londrinaSolid.className}
+            words={"Say goodbye to gas worries!"} delay={0.05}
+          />
+        </div>
+        <Card className="w-[650px] p-8 !overflow-visible bg-[#e3cd96] z-10 border-none shadow-lg">
+          <CardContent>
           <div className="flex flex-col gap-5">
 
             <div className="flex gap-3">
@@ -67,14 +86,14 @@ export default function Home() {
                       <Button onClick={() => open({view: "Swap"})} disabled={disabled}>Swap WETH</Button>
                   </div>
                 </div>
-                <hr className="border-t-2 border-gray-300 mx-12"/>
+                <hr className="border-t-2 border-gray-800 mx-12"/>
                 <div className="flex flex-col gap-3">
                   <h1 className="flex items-center">
                     <span className="text-4xl mr-2">②</span>Approve WETH for your gas on all Chains
                   </h1>
                   <ApprovalWidget callback={handleMessageCallback}/>
                 </div>
-                <hr className="border-t-2 border-gray-300 mx-12"/>
+                <hr className="border-t-2 border-gray-800 mx-12"/>
                 <div className="flex flex-col gap-3">
                   <h1 className="flex items-center">
                     <span className="text-4xl mr-2">③</span>Enjoy the gas on all the chains
@@ -99,7 +118,8 @@ export default function Home() {
               <h1 className="text-center text-lg font-bold">Transactions</h1>
             </div> */}
           </div>
-        </MagicCard>
+          </CardContent>
+        </Card>
       </main>
     </div>
   );

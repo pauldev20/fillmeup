@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import WETHAbi from "@/public/erc20abi.json";
 import { EIP1193Provider } from "viem";
 
-const WETHAddress = '0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9';
+const WETHAddress = process.env.NEXT_PUBLIC_WETH_CONTRACT as string;
+const ApproveContract = process.env.NEXT_PUBLIC_DIST_CONTRACT as string;
 
 interface ApprovalWidgetProps {
 	callback?: (hasWeth: boolean, hasApproval: boolean) => void;
@@ -23,6 +24,7 @@ export default function ApprovalWidget({ callback }: ApprovalWidgetProps) {
 
 
 	const getAllowance = useCallback(async () => {
+		console.log('getAllowance', WETHAddress);
 		if (!isConnected) return;
 		setApproved(null);
 		const ethersProvider = new BrowserProvider(walletProvider as EIP1193Provider);
@@ -40,6 +42,7 @@ export default function ApprovalWidget({ callback }: ApprovalWidgetProps) {
 
 		const WETHContract = new Contract(WETHAddress, WETHAbi, signer);
 		const balance = await WETHContract.balanceOf(address);
+		console.log(address, balance);
 		setBalance(Number(formatUnits(balance, 18)));
 	}, [address, isConnected, walletProvider]);
 
@@ -61,7 +64,9 @@ export default function ApprovalWidget({ callback }: ApprovalWidgetProps) {
 
 		const WETHContract = new Contract(WETHAddress, WETHAbi, signer);
 		const transaction = await WETHContract.approve(address, 0);
+		setApproved(null);
 		await transaction.wait();
+		getAllowance();
 	}
 
 	useEffect(() => {
