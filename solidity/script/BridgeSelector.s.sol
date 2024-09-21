@@ -26,21 +26,40 @@ contract DeployNormal is Script {
 contract TransferTest is Script {
     BridgeSelector selector;
     uint32 dsteid_base_sepolia = 40245;
+    uint32 dsteid_morph = 40322;
 
     function setUp() public {
-        selector = BridgeSelector(payable(0x903A4726c67e5Ea06Edf29CA780c539B5137d170));
+        selector = BridgeSelector(payable(0x290e31032c33331D724298544663dB502C8cC77D));
     }
+
+    LayerZero.sendData[] public data;
 
     function run() public {
         vm.createSelectFork(vm.rpcUrl("sepolia"));
         vm.startBroadcast();
 
-        uint256 nativeFee = selector.getLayerZeroQuote(dsteid_base_sepolia, 1000, msg.sender);
-        selector.weth().deposit{value: nativeFee}();
-        selector.weth().approve(address(selector), nativeFee);
+        uint256 cummulativeFee = 0;
+        for (uint i = 0; i < 1; i++) {
+            uint256 nativeFee = selector.lz().quote(
+                dsteid_morph,
+                1000,
+                msg.sender 
+            );
+            data.push(LayerZero.sendData(dsteid_morph, 1000, nativeFee));
+            cummulativeFee += nativeFee;
+        }
+
+        selector.weth().deposit{value: cummulativeFee}();
+        selector.weth().approve(address(selector), cummulativeFee);
+        selector.bridgeWithLayerZero(data, msg.sender, cummulativeFee);
+        vm.stopBroadcast();
+
+        // uint256 nativeFee = selector.getLayerZeroQuote(dsteid_base_sepolia, 1000, msg.sender);
+        // selector.weth().deposit{value: nativeFee}();
+        // selector.weth().approve(address(selector), nativeFee);
         // selector.bridgeWithLayerZero(dsteid_base_sepolia, 1000, msg.sender, nativeFee); 
 
-        vm.stopBroadcast();
+        // vm.stopBroadcast();
     }
 }
 
