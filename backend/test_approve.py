@@ -7,6 +7,7 @@ import os
 load_dotenv()
 ADDRESS = os.environ.get("TEST_ADDRESS")
 PRIVATE_KEY = os.environ.get("TEST_PRIVATE_KEY")
+CONTRACT = os.environ.get("CONTRACT")
 
 with open("addresses.json", "r") as f:
     addresses = json.load(f)
@@ -14,7 +15,7 @@ with open("addresses.json", "r") as f:
 PROVIDER_URL = "https://rpc.sepolia.org"
 w3 = Web3(Web3.HTTPProvider(PROVIDER_URL))
 
-selector_address = "0x290e31032c33331D724298544663dB502C8cC77D"
+selector_address = CONTRACT
 with open("selector.json", "r") as f:
     selector_abi = f.read()
 selector_contract = w3.eth.contract(address=selector_address, abi=selector_abi)

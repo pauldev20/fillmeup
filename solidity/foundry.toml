@@ -7,7 +7,7 @@ extra_output = ["storageLayout"]
 ast = true
 
 [rpc_endpoints]
-sepolia = "https://eth-sepolia.api.onfinality.io/public"
+sepolia = "https://1rpc.io/sepolia"
 base_sepolia = "wss://base-sepolia-rpc.publicnode.com"
 arbitrum_sepolia = "https://arbitrum-sepolia.blockpi.network/v1/rpc/public"
 polygon_amoy = "https://polygon-amoy.drpc.org"

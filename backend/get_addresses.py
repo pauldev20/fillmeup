@@ -1,10 +1,15 @@
 from web3 import Web3
 import json
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+CONTRACT = os.environ.get("CONTRACT")
 
 provider_url = 'https://rpc.sepolia.org'
 w3 = Web3(Web3.HTTPProvider(provider_url))
 
-selector_address = '0x290e31032c33331D724298544663dB502C8cC77D'
+selector_address = CONTRACT
 with open('selector.json', 'r') as f:
     selector_abi = f.read()
 

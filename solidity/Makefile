@@ -12,7 +12,7 @@ bridgeSelector-deploy:
 	forge script script/BridgeSelector.s.sol:DeployNormal --broadcast --fork-url $(RPC) --private-key $(PRIVATE_KEY) -vvvv --ffi
 bridgeSelector-verify:
 	forge verify-contract \
-	0x290e31032c33331d724298544663db502c8cc77d \
+	0x7b2E16f2a8cAf323AD4828BA5D8F6C36a679d2e2 \
 	src/BridgeSelector.sol:BridgeSelector \
 	-e $(ETHERSCAN_API_KEY) \
 	--rpc-url https://sepolia.drpc.org \
