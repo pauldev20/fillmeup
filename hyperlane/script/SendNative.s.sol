@@ -12,7 +12,7 @@ contract SendNative is Script {
     function run() public {
         vm.startBroadcast();
 
-        address mailbox = address(0x1234567890123456789012345678901234567890);
+        address mailbox = address(0x6966b0E55883d49BFB24539356a2f8A673E02039);
 
         hypnative = new HypNative(mailbox);
 
