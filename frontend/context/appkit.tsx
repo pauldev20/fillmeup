@@ -2,7 +2,7 @@
 
 import { createAppKit } from '@reown/appkit/react'
 import { EthersAdapter } from '@reown/appkit-adapter-ethers';
-import { base } from '@reown/appkit/networks';
+import { base, sepolia } from '@reown/appkit/networks';
 import { ReactNode } from 'react';
 
 // 1. Get projectId at https://cloud.reown.com
@@ -23,8 +23,8 @@ const metadata = {
 createAppKit({
   adapters: [ethers5Adapter],
   metadata: metadata,
-  networks: [base],
-  defaultNetwork: base,
+  networks: [base, sepolia],
+  defaultNetwork: sepolia,
   projectId,
   allowUnsupportedChain: true,
   features: {
