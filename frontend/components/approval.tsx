@@ -52,7 +52,7 @@ export default function ApprovalWidget({ callback }: ApprovalWidgetProps) {
 		const signer = await ethersProvider.getSigner()
 
 		const WETHContract = new Contract(WETHAddress, WETHAbi, signer);
-		const transaction = await WETHContract.approve(address, parseUnits(amount.toString(), 18))
+		const transaction = await WETHContract.approve(ApproveContract, parseUnits(amount.toString(), 18))
 		setApproved(null);
 		await transaction.wait();
 		getAllowance();
@@ -63,7 +63,7 @@ export default function ApprovalWidget({ callback }: ApprovalWidgetProps) {
 		const signer = await ethersProvider.getSigner()
 
 		const WETHContract = new Contract(WETHAddress, WETHAbi, signer);
-		const transaction = await WETHContract.approve(address, 0);
+		const transaction = await WETHContract.approve(ApproveContract, 0);
 		setApproved(null);
 		await transaction.wait();
 		getAllowance();
