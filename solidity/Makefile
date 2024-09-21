@@ -28,6 +28,8 @@ test-lz-existing:
 	forge test --match-test "testLayerZeroExisting" --fork-url ${RPC} -vvvv
 test-lz-new:
 	forge test --match-test "testLayerZeroNew" --fork-url ${RPC} -vvvv
+test-selector:
+	forge test --match-test "testBridgeSelector" --fork-url ${RPC} -vvvv 
 
 fork:
 	anvil -f wss://sepolia.drpc.org
