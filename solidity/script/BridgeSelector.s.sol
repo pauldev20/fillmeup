@@ -18,7 +18,7 @@ contract DeployNormal is Script {
     function run() public {
         vm.createSelectFork(vm.rpcUrl("sepolia"));
         vm.startBroadcast();
-        new BridgeSelector(address(lz), weth);
+        new BridgeSelector(address(lz), 0x1bbf7Cd3ECa39B4a49C782Aa4A22a2e17233a4Ca, weth);
         vm.stopBroadcast();
     }
 }
