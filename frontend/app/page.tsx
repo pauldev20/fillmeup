@@ -36,7 +36,7 @@ export default function Home() {
     if (status === "connected") {
       speechRef.current.addMessage("Looks like your wallet is connected!");
     }
-    if (status === "disconnected" || status === undefined) {
+    if (status === "disconnected") {
       speechRef.current.addMessage("Please connect your wallet to get started!");
     }
   }, [speechRef, isConnected, status]);
