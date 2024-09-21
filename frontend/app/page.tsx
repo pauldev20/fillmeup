@@ -1,22 +1,23 @@
 "use client";
 
+import SpeechBubble, {SpeechBubbleHandle} from "@/components/speechbubble";
+import { useOnMountUnsafe } from "@/lib/useOnMountUnsafe";
 import ConnectButton from "@/components/w3button";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useRef } from "react";
 import Image from "next/image";
-import SpeechBubble from "@/components/speechbubble";
-import { useEffect, useState } from "react";
 // import Image from "next/image";
 
 export default function Home() {
-  const [speachText, setSpeachText] = useState("Hello my name is Gassy!");
+  const speechRef = useRef<SpeechBubbleHandle>(null);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setSpeachText("I'm here to help you with your gas fees!");
-    }, 1000
-    );
-  }, []);
+  useOnMountUnsafe(() => {
+    console.log("Hello, I'm Gassy!");
+    if (!speechRef.current) return;
+    speechRef.current.addMessage("Hello, I'm Gassy!");
+    speechRef.current.addMessage("I'm here to help you with your gas fees!");
+  });
 
   return (
     <div className="min-h-screen">
@@ -60,7 +61,7 @@ export default function Home() {
               <div className="relative">
                 <Image src="/noun.png" width={250} height={250} alt="Nouns Character" />
                 <SpeechBubble
-                  text={speachText}
+                  ref={speechRef}
                   className="absolute left-full top-0 w-60 -ml-12 mt-20 transform -translate-y-full"
                 />
               </div>
