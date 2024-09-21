@@ -44,13 +44,19 @@ contract BridgeSelector {
         lz.sendBatch{value: cummulativeFee}(data, receiver);
     }
 
+    function getHyperlaneQuote(
+        uint32 dstEid,
+        uint256 amount
+    ) external view returns (uint256 fee) {
+        return hypNative.quoteGasPayment(dstEid);
+    }
+
     function bridgeWithHyperlane(
         uint32 dstEid,
         uint256 amount,
         address receiver
     ) public payable {
-        uint256 gas = hypNative.quoteGasPayment(dstEid);
-        hypNative.transferRemote{value: gas + amount}(
+        hypNative.transferRemote{value: amount}(
             dstEid,
             bytes32(uint256(uint160(receiver))),
             amount
