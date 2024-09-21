@@ -47,52 +47,57 @@ contract SetPeer is Script {
 
     function setUp() public {
         peers.push(
-            Peer("sepolia", 40161, 0x11545fE290A922c557274D4b53Ef3880175D40D8)
+            Peer("sepolia", 40161, 0x13b50021965171557cB0d6f3a2AAF1F86fCDEA94)
         );
         peers.push(
             Peer(
                 "base_sepolia",
                 40245,
-                0x4CD5D8EC1e9C3909d14f378f3348F3AB0A04E172
+                0x83473d55A8b4415B980d51EC9753c8Fb19D26f82
             )
         );
         peers.push(
             Peer(
                 "arbitrum_sepolia",
                 40231,
-                0xCF06f7BC9D3Cd7b068F059AB4c19f237F3A40F8C
+                0x0b18692D2f4059F13baA765816bFBD07776F7D8B
             )
         );
         peers.push(
             Peer(
                 "polygon_amoy",
                 40267,
-                0xCF06f7BC9D3Cd7b068F059AB4c19f237F3A40F8C
+                0x0b18692D2f4059F13baA765816bFBD07776F7D8B
             )
         );
         peers.push(
             Peer(
                 "optimism_sepolia",
                 40232,
-                0xCF06f7BC9D3Cd7b068F059AB4c19f237F3A40F8C
+                0x0b18692D2f4059F13baA765816bFBD07776F7D8B
             )
         );
         peers.push(
             Peer(
                 "morph_testnet",
                 40322,
-                0xCF06f7BC9D3Cd7b068F059AB4c19f237F3A40F8C
+                0x0b18692D2f4059F13baA765816bFBD07776F7D8B
             )
         );
     }
 
     function run() public {
-        uint i = 0;
-        uint j = 6;
+        uint i = 1;
+        // uint j = 1;
         LayerZero lz = LayerZero(peers[i].peer);
         vm.createSelectFork(vm.rpcUrl(peers[i].rpcAlias));
-        vm.broadcast();
-        lz.setPeer(peers[j].eid, Util.addressToBytes32(peers[j].peer));
+        vm.startBroadcast();
+        for (uint j = 0; j < peers.length; j++) {
+            if (i == j) continue;
+            lz.setPeer(peers[j].eid, Util.addressToBytes32(peers[j].peer));
+        }
+        vm.stopBroadcast();
+        // lz.setPeer(peers[j].eid, Util.addressToBytes32(peers[j].peer));
     }
 
     // always one transaction failing...
