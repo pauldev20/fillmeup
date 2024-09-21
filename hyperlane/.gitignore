@@ -12,3 +12,8 @@ docs/
 
 # Dotenv file
 .env
+
+# shit
+node_modules/
+notes.txt
+broadcast

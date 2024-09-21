@@ -2,21 +2,15 @@
 pragma solidity ^0.8.13;
 
 import { Upgrades } from "../lib/openzeppelin-foundry-upgrades/src/Upgrades.sol";
-import "../src/BridgeSelectorV1.sol";
+import "../src/BridgeSelector.sol";
 import {Script, console} from "forge-std/Script.sol";
-
-// interface ICounter {
-//     function getNumber() external returns (uint256);
-//     function getNumber2() external returns (uint256);
-//     function kekw() external returns (uint256);
-// }
 
 contract DeployNormal is Script {
     LayerZero lz;
     address weth;
 
     function setUp() public {
-        lz = LayerZero(address(0xCF06f7BC9D3Cd7b068F059AB4c19f237F3A40F8C));
+        lz = LayerZero(address(0x11545fE290A922c557274D4b53Ef3880175D40D8));
         lz.quote(40245, 1000, address(0x1337)); // test to see if address is correct
         weth = 0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9;
     }
@@ -24,18 +18,17 @@ contract DeployNormal is Script {
     function run() public {
         vm.createSelectFork(vm.rpcUrl("sepolia"));
         vm.startBroadcast();
-        BridgeSelectorV1 selector = new BridgeSelectorV1();
-        selector.initialize(address(lz), 0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9);
+        new BridgeSelector(address(lz), weth);
         vm.stopBroadcast();
     }
 }
 
 contract TransferTest is Script {
-    BridgeSelectorV1 selector;
+    BridgeSelector selector;
     uint32 dsteid_base_sepolia = 40245;
 
     function setUp() public {
-        selector = BridgeSelectorV1(payable(0x903A4726c67e5Ea06Edf29CA780c539B5137d170));
+        selector = BridgeSelector(payable(0x903A4726c67e5Ea06Edf29CA780c539B5137d170));
     }
 
     function run() public {
@@ -45,13 +38,11 @@ contract TransferTest is Script {
         uint256 nativeFee = selector.getLayerZeroQuote(dsteid_base_sepolia, 1000, msg.sender);
         selector.weth().deposit{value: nativeFee}();
         selector.weth().approve(address(selector), nativeFee);
-        selector.bridgeWithLayerZero(dsteid_base_sepolia, 1000, msg.sender, nativeFee); 
+        // selector.bridgeWithLayerZero(dsteid_base_sepolia, 1000, msg.sender, nativeFee); 
 
         vm.stopBroadcast();
     }
 }
-
-
 
 
 // doesn't work because of the payable stuff
