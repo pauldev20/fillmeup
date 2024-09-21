@@ -3,14 +3,16 @@
 import SpeechBubble, {SpeechBubbleHandle} from "@/components/speechbubble";
 import { useOnMountUnsafe } from "@/lib/useOnMountUnsafe";
 import ConnectButton from "@/components/w3button";
+import { useAppKit } from "@reown/appkit/react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useRef } from "react";
 import Image from "next/image";
+import ApprovalWidget from "@/components/approval";
 // import Image from "next/image";
 
 export default function Home() {
   const speechRef = useRef<SpeechBubbleHandle>(null);
+  const { open } = useAppKit();
 
   useOnMountUnsafe(() => {
     console.log("Hello, I'm Gassy!");
@@ -35,7 +37,8 @@ export default function Home() {
                   <span className="text-4xl mr-2">①</span>Swap to get some WETH
                 </h1>
                 <div className="flex justify-center items-center">
-                  <Button>Approve WETH</Button>
+                    {/* @ts-expect-error type missing but working */}
+                    <Button onClick={() => open({view: "Swap"})}>Swap WETH</Button>
                 </div>
               </div>
               <hr className="border-t-2 border-gray-300 mx-12"/>
@@ -43,11 +46,7 @@ export default function Home() {
                 <h1 className="flex items-center">
                   <span className="text-4xl mr-2">②</span>Approve WETH for your gas on all Chains
                 </h1>
-                <Input placeholder="Enter WETH amount" />
-                <div className="flex justify-center items-center gap-4">
-                  <Button>Approve WETH</Button>
-                  <p><span className="font-bold">77,5</span> WETH left for gas</p>
-                </div>
+                <ApprovalWidget/>
               </div>
               <hr className="border-t-2 border-gray-300 mx-12"/>
               <div className="flex flex-col gap-3">
@@ -69,10 +68,10 @@ export default function Home() {
 
           </div>
 
-          <hr className="border-t-2 border-gray-300 mx-3"/>
+          {/* <hr className="border-t-2 border-gray-300 mx-3"/>
           <div>
             <h1 className="text-center text-lg font-bold">Transactions</h1>
-          </div>
+          </div> */}
         </div>
       </main>
     </div>

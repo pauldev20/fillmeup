@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 import { cn } from "@/lib/utils";
-import React, { useState, useImperativeHandle, useRef, useEffect } from 'react';
+import React, { useState, useImperativeHandle, useRef, useEffect, useCallback } from 'react';
 
 export interface SpeechBubbleHandle {
   addMessage: (message: string) => void;
@@ -54,13 +54,6 @@ const SpeechBubble = React.forwardRef<SpeechBubbleHandle, SpeechBubbleProps>(
 	  }));
   
 	  useEffect(() => {
-		console.log("Effect", messagesQueue, currentMessage);
-		if (!isTyping.current && !currentMessage && messagesQueue.length > 0) {
-		  startNextMessage();
-		}
-	  }, [messagesQueue, currentMessage]);
-  
-	  useEffect(() => {
 		return () => {
 		  if (typingIntervalRef.current) {
 			clearInterval(typingIntervalRef.current);
@@ -71,8 +64,7 @@ const SpeechBubble = React.forwardRef<SpeechBubbleHandle, SpeechBubbleProps>(
 		};
 	  }, []);
   
-	  const startNextMessage = () => {
-		console.log("Starting next message", messagesQueue);
+	  const startNextMessage = useCallback(() => {
 		if (messagesQueue.length > 0) {
 		  const nextMessage = messagesQueue[0];
 		  setMessagesQueue((prevQueue) => prevQueue.slice(1));
@@ -100,7 +92,13 @@ const SpeechBubble = React.forwardRef<SpeechBubbleHandle, SpeechBubbleProps>(
 			}
 		  }, typingSpeed);
 		}
-	  };
+	  }, [messageDelay, messagesQueue, typingSpeed]);
+
+	  useEffect(() => {
+		if (!isTyping.current && !currentMessage && messagesQueue.length > 0) {
+		  startNextMessage();
+		}
+	  }, [messagesQueue, currentMessage, startNextMessage]);
   
 	  const messageToDisplay = isTyping.current ? displayedText : lastMessage;
   
