@@ -3,21 +3,47 @@
 import SpeechBubble, {SpeechBubbleHandle} from "@/components/speechbubble";
 import { useOnMountUnsafe } from "@/lib/useOnMountUnsafe";
 import ConnectButton from "@/components/w3button";
+import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-// import Image from "next/image";
+import ApprovalWidget from "@/components/approval";
 
 export default function Home() {
   const speechRef = useRef<SpeechBubbleHandle>(null);
+  const [disabled, setDisabled] = useState(true);
+  const { isConnected, status } = useAppKitAccount();
+  const { open } = useAppKit();
 
   useOnMountUnsafe(() => {
-    console.log("Hello, I'm Gassy!");
     if (!speechRef.current) return;
     speechRef.current.addMessage("Hello, I'm Gassy!");
     speechRef.current.addMessage("I'm here to help you with your gas fees!");
   });
+
+  useEffect(() => {
+    setDisabled(!isConnected);
+    if (!speechRef.current) return;
+    if (status === "connected") {
+      speechRef.current.addMessage("Looks like you're Wallet is connected!");
+    } 
+    if (status === "disconnected") {
+      speechRef.current.addMessage("Please connect your wallet to get started!");
+    }
+  }, [speechRef, isConnected, status]);
+
+  const handleMessageCallback = (hasWeth: boolean, hasApproval: boolean) => {
+    if (!speechRef.current) return;
+    if (hasWeth && !hasApproval) {
+      speechRef.current.addMessage("You have WETH! Please approve it!");
+    }
+    if (hasWeth && hasApproval) {
+      speechRef.current.addMessage("You have WETH and approved it! Lay back and enjoy the gas!");
+    }
+    if (!hasWeth) {
+      speechRef.current.addMessage("You don't have WETH! To continue, please swap some!");
+    }
+  }
 
   return (
     <div className="min-h-screen">
@@ -35,7 +61,8 @@ export default function Home() {
                   <span className="text-4xl mr-2">①</span>Swap to get some WETH
                 </h1>
                 <div className="flex justify-center items-center">
-                  <Button>Approve WETH</Button>
+                    {/* @ts-expect-error type missing but working */}
+                    <Button onClick={() => open({view: "Swap"})} disabled={disabled}>Swap WETH</Button>
                 </div>
               </div>
               <hr className="border-t-2 border-gray-300 mx-12"/>
@@ -43,11 +70,7 @@ export default function Home() {
                 <h1 className="flex items-center">
                   <span className="text-4xl mr-2">②</span>Approve WETH for your gas on all Chains
                 </h1>
-                <Input placeholder="Enter WETH amount" />
-                <div className="flex justify-center items-center gap-4">
-                  <Button>Approve WETH</Button>
-                  <p><span className="font-bold">77,5</span> WETH left for gas</p>
-                </div>
+                <ApprovalWidget callback={handleMessageCallback}/>
               </div>
               <hr className="border-t-2 border-gray-300 mx-12"/>
               <div className="flex flex-col gap-3">
@@ -69,10 +92,10 @@ export default function Home() {
 
           </div>
 
-          <hr className="border-t-2 border-gray-300 mx-3"/>
+          {/* <hr className="border-t-2 border-gray-300 mx-3"/>
           <div>
             <h1 className="text-center text-lg font-bold">Transactions</h1>
-          </div>
+          </div> */}
         </div>
       </main>
     </div>
