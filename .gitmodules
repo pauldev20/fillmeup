@@ -19,3 +19,6 @@
 [submodule "hyperlane/lib/openzeppelin-contracts"]
 	path = hyperlane/lib/openzeppelin-contracts
 	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "hyperlane/lib/openzeppelin-contracts-upgradeable"]
+	path = hyperlane/lib/openzeppelin-contracts-upgradeable
+	url = https://github.com/openzeppelin/openzeppelin-contracts-upgradeable
