@@ -47,7 +47,7 @@ export default function Home() {
       speechRef.current.addMessage("You have WETH! Please approve it!");
     }
     if (hasWeth && hasApproval) {
-      speechRef.current.addMessage("You have WETH and approved it! Lay back and enjoy the gas!");
+      speechRef.current.addMessage("You have WETH and approved it! Lay back and I'll fill you up!");
     }
     if (!hasWeth) {
       speechRef.current.addMessage("You don't have WETH! To continue, please swap some!");
