@@ -1,0 +1,46 @@
+.pixelShadow {
+	box-shadow:
+	  0 -3px #fff, 0 -6px #000, 3px 0 #fff, 3px -3px #000, 6px 0 #000,
+	  0 3px #fff, 0 6px #000, -3px 0 #fff, -3px 3px #000, -6px 0 #000,
+	  -3px -3px #000, 3px 3px #000, 3px 9px #aaa, 6px 6px #aaa, 9px 3px #aaa;
+}
+
+.speechArrow {
+	margin-top: 3px;
+	margin-left: 0px;
+	position: relative;
+	z-index: 50;
+	background: transparent;
+}
+.arrowW {
+	width:13px;
+	height:11px;
+	background:#fcfcfc;
+	border-left:3px solid #222;
+	border-right:3px solid #222;
+	box-shadow: 2px 3px #aaa;
+}
+.arrowX {
+	width:11px;
+	height:3px;
+	background:#fcfcfc;
+	border-left:3px solid #222;
+	border-right:3px solid #222;
+	box-shadow: 2px 3px #aaa;
+}
+.arrowY {
+	margin-left:-2px;
+	width:10px;
+	height:3px;
+	background:#fcfcfc;
+	border-left:3px solid #222;
+	border-right:3px solid #222;
+	box-shadow: 2px 3px #aaa;
+}
+.arrowZ {
+	margin-left:-2px;
+	width:8px;
+	height:3px;
+	background:#222;
+	box-shadow: 2px 3px #aaa;
+}

@@ -4,7 +4,7 @@ import { createWeb3Modal, defaultConfig } from '@web3modal/ethers5/react';
 import { ReactNode } from 'react';
 
 // Your Reown Cloud project ID
-export const projectId = '38fedd74e24babc97d35be5d6911346d'
+export const projectId = '38fedd74e24babc97d35be5d6911346d';
 
 // 2. Set chains
 const mainnet = {
