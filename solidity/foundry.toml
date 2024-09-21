@@ -7,7 +7,11 @@ extra_output = ["storageLayout"]
 ast = true
 
 [rpc_endpoints]
-sepolia = "https://sepolia.drpc.org"
+sepolia = "https://eth-sepolia.api.onfinality.io/public"
 base_sepolia = "wss://base-sepolia-rpc.publicnode.com"
+arbitrum_sepolia = "https://arbitrum-sepolia.blockpi.network/v1/rpc/public"
+polygon_amoy = "https://polygon-amoy.drpc.org"
+optimism_sepolia = "https://sepolia.optimism.io"
+morph_testnet = "https://rpc-holesky.morphl2.io"
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

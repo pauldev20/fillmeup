@@ -15,39 +15,65 @@ contract LayerZero is OApp {
 
     using OptionsBuilder for bytes;
 
-    /**
-     * @notice Sends a message from the source to destination chain.
-     * @param dstEid Destination chain's endpoint ID.
-     * @param amount Amount of native tokens to send
-     * @param receiver Reciever of native tokens
-     */
-    function send(
-        uint32 dstEid,
-        uint128 amount,
-        address receiver
-    ) external payable {
-        bytes memory options = OptionsBuilder
-            .newOptions()
-            .addExecutorLzReceiveOption(200000, 0)
-            .addExecutorNativeDropOption(
-                amount,
-                Util.addressToBytes32(receiver)
-            );
-        _lzSend(
-            dstEid,
-            bytes(""),
-            options,
-            MessagingFee(msg.value, 0),
-            payable(msg.sender)
-        );
+    function _payNative(uint256 _nativeFee) internal override returns (uint256 nativeFee) {
+        if (msg.value < _nativeFee) revert NotEnoughNative(msg.value);
+        return _nativeFee;
     }
 
-    // function fund(
-    //     address receiver,
-    //     uint32[] calldata _dstEids
-    // ) external {
-
+    // /**
+    //  * @notice Sends a message from the source to destination chain.
+    //  * @param dstEid Destination chain's endpoint ID.
+    //  * @param amount Amount of native tokens to send
+    //  * @param receiver Reciever of native tokens
+    //  */
+    // function send(
+    //     uint32 dstEid,
+    //     uint128 amount,
+    //     address receiver
+    // ) external payable {
+    //     bytes memory options = OptionsBuilder
+    //         .newOptions()
+    //         .addExecutorLzReceiveOption(200000, 0)
+    //         .addExecutorNativeDropOption(
+    //             amount,
+    //             Util.addressToBytes32(receiver)
+    //         );
+    //     _lzSend(
+    //         dstEid,
+    //         bytes(""),
+    //         options,
+    //         MessagingFee(msg.value, 0),
+    //         payable(receiver)
+    //     );
     // }
+
+    struct sendData {
+        uint32 dstEid;
+        uint128 amount;
+        uint256 fee;
+    }
+
+    function sendBatch(
+        sendData[] calldata data,
+        address receiver
+    ) external payable {
+        for (uint i = 0; i < data.length; i++) {
+            bytes memory options = OptionsBuilder
+                .newOptions()
+                .addExecutorLzReceiveOption(200000, 0)
+                .addExecutorNativeDropOption(
+                    data[i].amount,
+                    Util.addressToBytes32(receiver)
+                );
+            _lzSend(
+                data[i].dstEid,
+                bytes(""),
+                options,
+                MessagingFee(data[i].fee, 0),
+                payable(receiver)
+            );
+        }
+    }
 
     /**
      * @dev We can keep this empty, since we are just using the message to send native tokens.
@@ -67,7 +93,7 @@ contract LayerZero is OApp {
         uint32 _dstEid,
         uint128 amount,
         address receiver
-    ) public view returns (uint256 nativeFee) {
+    ) external view returns (uint256 nativeFee) {
         bytes memory options = OptionsBuilder
             .newOptions()
             .addExecutorLzReceiveOption(200000, 0)

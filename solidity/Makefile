@@ -8,16 +8,12 @@ export
 
 none:
 
-bridgeSelector-deploy-normal:
+bridgeSelector-deploy:
 	forge script script/BridgeSelector.s.sol:DeployNormal --broadcast --fork-url $(RPC) --private-key $(PRIVATE_KEY) -vvvv --ffi
-# bridgeSelector-deploy:
-# 	forge clean
-# 	forge build
-# 	forge script script/BridgeSelector.s.sol:DeployProxy --broadcast --fork-url $(RPC) --private-key $(PRIVATE_KEY) -vvvv --ffi
 bridgeSelector-verify:
 	forge verify-contract \
-	0x4CD5D8EC1e9C3909d14f378f3348F3AB0A04E172 \
-	src/BridgeSelectorV1.sol:BridgeSelectorV1 \
+	0x290e31032c33331d724298544663db502c8cc77d \
+	src/BridgeSelector.sol:BridgeSelector \
 	-e $(ETHERSCAN_API_KEY) \
 	--rpc-url https://sepolia.drpc.org \
 	--guess-constructor-args \
@@ -30,11 +26,11 @@ layerZero-deploy:
 	forge script script/LayerZero.s.sol:Deploy --broadcast --private-key $(PRIVATE_KEY) -vvvv
 layerZero-setpeer:
 	forge script script/LayerZero.s.sol:SetPeer --broadcast --private-key $(PRIVATE_KEY) -vvvv
-layerZero-send:
-	forge script script/LayerZero.s.sol:Send --broadcast --fork-url $(RPC) --private-key $(PRIVATE_KEY) -vvvv
+# layerZero-send:
+# 	forge script script/LayerZero.s.sol:Send --broadcast --fork-url $(RPC) --private-key $(PRIVATE_KEY) -vvvv
 layerZero-verify:
 	forge verify-contract \
-	0xCF06f7BC9D3Cd7b068F059AB4c19f237F3A40F8C \
+	0x11545fE290A922c557274D4b53Ef3880175D40D8 \
 	src/LayerZero.sol:LayerZero \
 	-e $(ETHERSCAN_API_KEY) \
 	--rpc-url https://sepolia.drpc.org \
@@ -42,14 +38,16 @@ layerZero-verify:
 	--chain sepolia \
 	--watch
 
-test-lz-existing:
-	forge test --match-test "testLayerZeroExisting" --fork-url ${RPC} -vvvv
-test-lz-new:
-	forge test --match-test "testLayerZeroNew" --fork-url ${RPC} -vvvv
-test-selector:
-	forge test --match-test "testBridgeSelector" --fork-url ${RPC} -vvvv 
-test-selector-existing:
-	forge test --match-test "testBridgeSelectorExisting" --fork-url ${RPC} -vvvv 
+# test-lz-existing:
+# 	forge test --match-test "testLayerZeroExisting" --fork-url ${RPC} -vvvv
+# test-lz-new:
+# 	forge test --match-test "testLayerZeroNewSingle" --fork-url ${RPC} -vvvv
+test-lz-new-batch:
+	forge test --match-test "testLayerZeroNewBatch" --fork-url ${RPC} -vvvv
+test-selector-new:
+	forge test --match-test "testBridgeSelectorNew" --fork-url ${RPC} -vvvv 
+# test-selector-existing:
+# 	forge test --match-test "testBridgeSelectorExisting" --fork-url ${RPC} -vvvv 
 
 fork:
 	anvil -f wss://sepolia.drpc.org
