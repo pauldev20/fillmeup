@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import ApprovalWidget from "@/components/approval";
+import { MagicCard } from "@/components/magicui/magic-card";
 
 export default function Home() {
   const speechRef = useRef<SpeechBubbleHandle>(null);
@@ -25,7 +26,7 @@ export default function Home() {
     setDisabled(!isConnected);
     if (!speechRef.current) return;
     if (status === "connected") {
-      speechRef.current.addMessage("Looks like you're Wallet is connected!");
+      speechRef.current.addMessage("Looks like your wallet is connected!");
     } 
     if (status === "disconnected") {
       speechRef.current.addMessage("Please connect your wallet to get started!");
@@ -50,53 +51,55 @@ export default function Home() {
       <header className="flex flex-col gap-4 items-end w-full absolute p-4">
         <ConnectButton/>
       </header>
-      <main className="flex items-center justify-center min-h-screen w-full">
-        <div className="flex flex-col gap-5">
+      <main className="flex items-center justify-center min-h-screen">
+        <MagicCard className="w-[650px] p-8 !overflow-visible">
+          <div className="flex flex-col gap-5">
 
-          <div className="flex gap-3">
+            <div className="flex gap-3">
 
-            <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-3">
-                <h1 className="flex items-center">
-                  <span className="text-4xl mr-2">①</span>Swap to get some WETH
-                </h1>
-                <div className="flex justify-center items-center">
-                    {/* @ts-expect-error type missing but working */}
-                    <Button onClick={() => open({view: "Swap"})} disabled={disabled}>Swap WETH</Button>
+                <div className="flex flex-col gap-3">
+                  <h1 className="flex items-center">
+                    <span className="text-4xl mr-2">①</span>Swap to get some WETH
+                  </h1>
+                  <div className="flex justify-center items-center">
+                      {/* @ts-expect-error type missing but working */}
+                      <Button onClick={() => open({view: "Swap"})} disabled={disabled}>Swap WETH</Button>
+                  </div>
+                </div>
+                <hr className="border-t-2 border-gray-300 mx-12"/>
+                <div className="flex flex-col gap-3">
+                  <h1 className="flex items-center">
+                    <span className="text-4xl mr-2">②</span>Approve WETH for your gas on all Chains
+                  </h1>
+                  <ApprovalWidget callback={handleMessageCallback}/>
+                </div>
+                <hr className="border-t-2 border-gray-300 mx-12"/>
+                <div className="flex flex-col gap-3">
+                  <h1 className="flex items-center">
+                    <span className="text-4xl mr-2">③</span>Enjoy the gas on all the chains
+                  </h1>
                 </div>
               </div>
-              <hr className="border-t-2 border-gray-300 mx-12"/>
-              <div className="flex flex-col gap-3">
-                <h1 className="flex items-center">
-                  <span className="text-4xl mr-2">②</span>Approve WETH for your gas on all Chains
-                </h1>
-                <ApprovalWidget callback={handleMessageCallback}/>
+
+              <div className="flex flex-col items-center justify-center">
+                <div className="relative">
+                  <Image src="/noun.png" width={250} height={250} alt="Nouns Character" />
+                  <SpeechBubble
+                    ref={speechRef}
+                    className="absolute left-full top-0 w-60 -ml-12 mt-20 transform -translate-y-full"
+                  />
+                </div>
               </div>
-              <hr className="border-t-2 border-gray-300 mx-12"/>
-              <div className="flex flex-col gap-3">
-                <h1 className="flex items-center">
-                  <span className="text-4xl mr-2">③</span>Enjoy the gas on all the chains
-                </h1>
-              </div>
+
             </div>
 
-            <div className="flex flex-col items-center justify-center">
-              <div className="relative">
-                <Image src="/noun.png" width={250} height={250} alt="Nouns Character" />
-                <SpeechBubble
-                  ref={speechRef}
-                  className="absolute left-full top-0 w-60 -ml-12 mt-20 transform -translate-y-full"
-                />
-              </div>
-            </div>
-
+            {/* <hr className="border-t-2 border-gray-300 mx-3"/>
+            <div>
+              <h1 className="text-center text-lg font-bold">Transactions</h1>
+            </div> */}
           </div>
-
-          {/* <hr className="border-t-2 border-gray-300 mx-3"/>
-          <div>
-            <h1 className="text-center text-lg font-bold">Transactions</h1>
-          </div> */}
-        </div>
+        </MagicCard>
       </main>
     </div>
   );
