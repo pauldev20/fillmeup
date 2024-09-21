@@ -1,16 +1,16 @@
 "use client";
 
-import { useWeb3Modal, useWeb3ModalState, useWeb3ModalAccount } from "@web3modal/ethers5/react";
+import { useAppKit, useAppKitAccount, useAppKitState } from '@reown/appkit/react';
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function ConnectButton() {
-	const { open: modalOpen } = useWeb3ModalState();
-	const { isConnected } = useWeb3ModalAccount();
-	const { open } = useWeb3Modal();
-	const [connected, setConnected] = useState(false);
 	const [connecting, setConnecting] = useState(false);
+	const [connected, setConnected] = useState(false);
+	const { open: modalOpen } = useAppKitState();
+	const { isConnected } = useAppKitAccount();
+	const { open } = useAppKit();
 
 	useEffect(() => {
 		setConnected(isConnected);
