@@ -14,7 +14,7 @@ with open("addresses.json", "r") as f:
 PROVIDER_URL = "https://rpc.sepolia.org"
 w3 = Web3(Web3.HTTPProvider(PROVIDER_URL))
 
-selector_address = "0x903A4726c67e5Ea06Edf29CA780c539B5137d170"
+selector_address = "0x290e31032c33331D724298544663dB502C8cC77D"
 with open("selector.json", "r") as f:
     selector_abi = f.read()
 selector_contract = w3.eth.contract(address=selector_address, abi=selector_abi)
@@ -53,7 +53,7 @@ def approve(amount):
     print("waiting for transaction to complete:", txn_hash.hex())
     txn_receipt = w3.eth.wait_for_transaction_receipt(txn_hash)
 
-amount = Web3.to_wei(0.1, "ether")
+amount = Web3.to_wei(0.01, "ether")
 # amount = int(0.1 * 10e18)
 # print(amount)
 deposit(amount)

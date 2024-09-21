@@ -34,17 +34,17 @@ sequenceDiagram
 ## Contracts
 
 ### LayerZero
-[sepolia](https://sepolia.etherscan.io/address/0x11545fE290A922c557274D4b53Ef3880175D40D8)
+[sepolia](https://sepolia.etherscan.io/address/0x13b50021965171557cB0d6f3a2AAF1F86fCDEA94)
 
-[base-sepolia](https://sepolia.basescan.org/address/0x4CD5D8EC1e9C3909d14f378f3348F3AB0A04E172)
+[base-sepolia](https://sepolia.basescan.org/address/0x83473d55A8b4415B980d51EC9753c8Fb19D26f82)
 
-[arbitrum-sepolia](https://sepolia.arbiscan.io/address/0xCF06f7BC9D3Cd7b068F059AB4c19f237F3A40F8C)
+[arbitrum-sepolia](https://sepolia.arbiscan.io/address/0x0b18692D2f4059F13baA765816bFBD07776F7D8B)
 
-[polygon-amoy](https://www.oklink.com/amoy/address/0xcf06f7bc9d3cd7b068f059ab4c19f237f3a40f8c)
+[polygon-amoy](https://www.oklink.com/amoy/address/0x0b18692D2f4059F13baA765816bFBD07776F7D8B)
 
-[optimism-sepolia](https://sepolia-optimism.etherscan.io/address/0xCF06f7BC9D3Cd7b068F059AB4c19f237F3A40F8C)
+[optimism-sepolia](https://sepolia-optimism.etherscan.io/address/0x0b18692D2f4059F13baA765816bFBD07776F7D8B)
 
-[morph](https://explorer-holesky.morphl2.io/address/0xCF06f7BC9D3Cd7b068F059AB4c19f237F3A40F8C)
+[morph](https://explorer-holesky.morphl2.io/address/0x0b18692D2f4059F13baA765816bFBD07776F7D8B)
 
 ### BridgeSelector
 
