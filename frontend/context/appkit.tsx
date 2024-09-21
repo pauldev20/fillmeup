@@ -6,15 +6,15 @@ import { base, sepolia } from '@reown/appkit/networks';
 import { ReactNode } from 'react';
 
 // 1. Get projectId at https://cloud.reown.com
-const projectId = '95937996f1866fa00fd008e5d58854ca';
+const projectId = 'd04be838f7df7941bffb294d5c32eb3a';
 
 // 2. Set Ethers adapters
 const ethers5Adapter = new EthersAdapter()
 
 // 3. Create a metadata object
 const metadata = {
-  name: 'Test',
-  description: 'AppKit Example',
+  name: 'FillMeUp',
+  description: 'Say goodbye to gas worries!',
   url: 'https://fillmeup-two.vercel.app',
   icons: ['https://assets.reown.com/reown-profile-pic.png']
 }
