@@ -3,4 +3,9 @@ src = "src"
 out = "out"
 libs = ["lib"]
 
+[rpc_endpoints]
+sepolia = "https://1rpc.io/sepolia"
+source_chain = "https://alfajores-forno.celo-testnet.org"
+destination_chain = "https://ava-testnet.public.blastapi.io/ext/bc/C/rpc"
+
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

@@ -12,3 +12,9 @@ docs/
 
 # Dotenv file
 .env
+
+# shit
+node_modules/
+notes.txt
+broadcast
+lib/LayerZero-v2
