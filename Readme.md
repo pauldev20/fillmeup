@@ -1,11 +1,23 @@
-# CREATED FOR ETHGLOBAL SINGAPORE
-https://ethglobal.com/showcase/fill-me-up-9u13c
+<div align="center">
+    <img src="https://em-content.zobj.net/source/apple/419/shield_1f6e1-fe0f.png" align="center" width=180 heihgt=180/>
+    <h1>Fill Me Up</h1>
+    <p align="center">
+        <a href="https://ethglobal.com/showcase/fill-me-up-9u13c">ETHGlobal Showcase</a>
+        <br/>
+        <a href="#about">About This Project</a>
+        ·
+        <a href="#technical">How It Works</a>
+    </p>
+    <br/>
+</div>
 
+<div align="center">
+  <img width="389" alt="prizes" src="https://github.com/user-attachments/assets/2507cc31-59a4-4aac-bfb8-6c0e78061891" />
+</div>
 
-<img width="389" alt="image" src="https://github.com/user-attachments/assets/2507cc31-59a4-4aac-bfb8-6c0e78061891">
+<br/>
 
-
-# Fill Me Up
+# About
 Never worry about gas fees again! Approve funds on one chain and all chains are automatically refilled.
 
 ## Problem
