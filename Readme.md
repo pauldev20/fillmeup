@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://em-content.zobj.net/source/apple/419/shield_1f6e1-fe0f.png" align="center" width=180 heihgt=180/>
+    <img src="https://em-content.zobj.net/source/apple/419/fuel-pump_26fd.png" align="center" width=180 heihgt=180/>
     <h1>Fill Me Up</h1>
     <p align="center">
         <a href="https://ethglobal.com/showcase/fill-me-up-9u13c">ETHGlobal Showcase</a>
